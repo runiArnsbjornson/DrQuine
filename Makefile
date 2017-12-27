@@ -2,7 +2,7 @@ define \n
 
 
 endef
-SRC = Colleen.c Grace.c Sully.Colleen
+SRC = Colleen.c Grace.c Sully.c
 OBJ = $(SRC:.c=.o)
 NAME = $(SRC:.c=)
 CFLAGS = -Wall -Wextra -Werror
