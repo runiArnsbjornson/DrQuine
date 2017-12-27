@@ -13,26 +13,26 @@ all:
 	@$(MAKE) Sully
 
 test:
-	@echo "\033[34mTesting Colleen \033[33m output checkable in Colleen_diff\033[0m"
-	@./Colleen > Colleen_diff
-	diff Colleen.c Colleen_diff
+	@echo "\033[34mTesting Colleen \033[33m output checkable in tmp_Colleen\033[0m"
+	@./Colleen > tmp_Colleen
+	diff Colleen.c tmp_Colleen
 	@echo ${\n}
 	@echo "\033[34mTesting Grace\033[0m"
 	@./Grace
 	diff Grace_kid.c Grace.c
 	@echo ${\n}
 	@echo "\033[34mTesting Sully \033[33m plus multiple diffs with Sully.c and a final grep, enjoy\033[0m"
-	@./Sully
-	for number in {5..0} ; do diff Sully.c Sully_$$number.c ||: ; done
+	mkdir -p tmp;cp Sully tmp/;cd tmp/;./Sully;	ls -la | grep Sully | wc -l
 	@echo ${\n}
-	ls -la | grep Sully | wc -l
+	for number in {5..0} ; do diff Sully.c tmp/Sully_$$number.c ||: ; done
 
 clean:
 	@/bin/rm -f $(OBJ)
 	@echo "\033[31mClean \033[32mDone\033[0m"
 
 fclean: clean
-	@/bin/rm -f Sully Colleen Colleen_diff Grace Grace_kid.c Sully_0.c Sully_1 Sully_1.c Sully_2 Sully_2.c Sully_3 Sully_3.c Sully_4 Sully_4.c Sully_5 Sully_5.c
+	@/bin/rm -f Colleen tmp_Colleen Grace Grace_kid.c Sully
+	@/bin/rm -rf ./tmp
 	@echo "\033[31mFclean\033[32m Done\033[0m"
 
 re:

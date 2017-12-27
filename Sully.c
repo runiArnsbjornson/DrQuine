@@ -9,13 +9,16 @@ int main() {
         i--;
     char path[128];
     char comp[128];
+    char exec[128];
     sprintf(path, "Sully_%d.c", i);
-    sprintf(comp, "gcc -o Sully_%d Sully_%d.c ; ./Sully_%d", i, i, i);
+    sprintf(comp, "gcc -o Sully_%d Sully_%d.c", i, i);
+    sprintf(exec, "./Sully_%d", i);
     void *clone = fopen(path, "w+");
-    char *s = "#include <stdio.h>%c#include <string.h>%c#include <stdlib.h>%c#define HT %c%s%c%c%cint main() {%c%sint i = %d;%c%sif (strcmp(__FILE__, %cSully.c%c) != 0)%c%s%si--;%c%schar path[128];%c%schar comp[128];%c%ssprintf(path, %cSully_%cd.c%c, i);%c%ssprintf(comp, %cgcc -o Sully_%cd Sully_%cd.c ; ./Sully_%cd%c, i, i, i);%c%svoid *clone = fopen(path, %cw+%c);%c%schar *s = %c%s%c;%c%sfprintf(clone, s, 10, 10, 10, 34, HT, 34, 10, 10, 10, HT, i, 10, HT, 34, 34, 10, HT, HT, 10, HT, 10, HT, 10, HT, 34, 37, 34, 10, HT, 34, 37, 37, 37, 34, 10, HT, 34, 34, 10, HT, 34, s, 34, 10, HT, 10, HT, 10, HT, 10, HT, HT, 10, HT, 10, 10);%c%sfclose(clone);%c%sif (i != 0)%c%s%ssystem(comp);%c%sreturn 0;%c}%c";
-    fprintf(clone, s, 10, 10, 10, 34, HT, 34, 10, 10, 10, HT, i, 10, HT, 34, 34, 10, HT, HT, 10, HT, 10, HT, 10, HT, 34, 37, 34, 10, HT, 34, 37, 37, 37, 34, 10, HT, 34, 34, 10, HT, 34, s, 34, 10, HT, 10, HT, 10, HT, 10, HT, HT, 10, HT, 10, 10);
+    char *s = "#include <stdio.h>%1$c#include <string.h>%1$c#include <stdlib.h>%1$c#define HT %2$c%3$s%2$c%1$c%1$cint main() {%1$c%3$sint i = %4$d;%1$c%3$sif (strcmp(__FILE__, %2$cSully.c%2$c) != 0)%1$c%3$s%3$si--;%1$c%3$schar path[128];%1$c%3$schar comp[128];%1$c%3$schar exec[128];%1$c%3$ssprintf(path, %2$cSully_%5$cd.c%2$c, i);%1$c%3$ssprintf(comp, %2$cgcc -o Sully_%5$cd Sully_%5$cd.c%2$c, i, i);%1$c%3$ssprintf(exec, %2$c./Sully_%5$cd%2$c, i);%1$c%3$svoid *clone = fopen(path, %2$cw+%2$c);%1$c%3$schar *s = %2$c%6$s%2$c;%1$c%3$sfprintf(clone, s, 10, 34, HT, i, 37, s);%1$c%3$sfclose(clone);%1$c%3$ssystem(comp);%1$c%3$sif (i > 0)%1$c%3$s%3$ssystem(exec);%1$c%3$sreturn 0;%1$c}%1$c";
+    fprintf(clone, s, 10, 34, HT, i, 37, s);
     fclose(clone);
-    if (i != 0)
-        system(comp);
+    system(comp);
+    if (i > 0)
+        system(exec);
     return 0;
 }
